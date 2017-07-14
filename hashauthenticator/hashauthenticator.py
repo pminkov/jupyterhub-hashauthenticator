@@ -27,7 +27,7 @@ class HashAuthenticator(Authenticator):
     password = data['password']
 
     password_digest = generate_password_digest(username, self.secret_key)
-    expected_password = password_digest[:int(self.password_length)]
+    expected_password = password_digest[:self.password_length]
 
     if password == expected_password:
       return username
