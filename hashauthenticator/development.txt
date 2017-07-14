@@ -1,2 +1,0 @@
-To run tests:
-  python ./setup.py tests

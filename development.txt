@@ -1,0 +1,6 @@
+To run tests:
+  python ./setup.py tests
+
+To upload to pypi:
+  python setup.py sdist upload -r pypi
+
