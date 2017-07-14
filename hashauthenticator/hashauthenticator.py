@@ -1,54 +1,35 @@
 from jupyterhub.auth import Authenticator
 from tornado import gen
-from traitlets import Unicode
-import hashlib
+from traitlets import Unicode, Integer
+import hashlib, binascii
+
+def generate_password_digest(username, secret_key):
+  dk = hashlib.pbkdf2_hmac('sha256', username.encode(), secret_key.encode(), 25000)
+  password_digest = binascii.hexlify(dk).decode()
+
+  return password_digest
 
 
 class HashAuthenticator(Authenticator):
-  salt = Unicode(
-    default_value=u'salt',
-    allow_none=False,
+  secret_key = Unicode(
     config=True,
-    help="""
-    Key used to encrypt usernames to produce passwords.
-    """
+    help="Key used to encrypt usernames to produce passwords."
   )
 
-  PASSWORD_LENGTH = 6
+  password_length = Integer(
+    default_value=6,
+    config=True,
+    help="Password length.")
 
   @gen.coroutine
   def authenticate(self, handler, data):
-    password = data['password']
     username = data['username']
+    password = data['password']
 
-    salt_b = bytes(self.salt, 'utf-8')
-    username_b = bytes(username, 'utf-8')
-    password_digest = hashlib.sha256(salt_b + username_b).hexdigest()
-    expected_password = password_digest[:HashAuthenticator.PASSWORD_LENGTH]
-
-    print('Expected password', expected_password)
+    password_digest = generate_password_digest(username, self.secret_key)
+    expected_password = password_digest[:int(self.password_length)]
 
     if password == expected_password:
       return username
 
     return None
-
-
-if __name__ == '__main__':
-  HashAuthenticator.salt = 'course_24'
-  h = HashAuthenticator()
-
-  data = {}
-  data['username'] = 'petko'
-  data['password'] = 'hithere'
-  res  = h.authenticate(None, data).result()
-  assert(res == None)
-
-  data = {}
-  data['username'] = 'petko'
-  data['password'] = '366f70'
-  res  = h.authenticate(None, data).result()
-  assert(res == 'petko')
-
-
-

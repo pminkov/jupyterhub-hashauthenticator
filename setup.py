@@ -7,6 +7,7 @@ setup(
     url='https://github.com/pminkov/jupyterhub-hashauthenticator',
     author='Petko Minkov',
     author_email='pminkov@gmail.com',
+    test_suite="hashauthenticator.tests",
     license='MIT',
     packages=['hashauthenticator'],
 )
