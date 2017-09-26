@@ -13,7 +13,7 @@ Should install it. It has no additional dependencies beyond JupyterHub.
 You can then use this as your authenticator by adding the following line to your jupyterhub_config.py:
 
 ```python
-c.JupyterHub.authenticator_class = 'hashauthenticator.HashAuthenticator
+c.JupyterHub.authenticator_class = 'hashauthenticator.HashAuthenticator'
 c.HashAuthenticator.secret_key = 'my secret key'
 ```
 
