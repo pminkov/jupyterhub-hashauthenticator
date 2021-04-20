@@ -1,6 +1,6 @@
 # Hash JupyterHub Authenticator
 
-An authenticator for [JupyterHub](https://jupyterhub.readthedocs.io/en/latest/) where the password for each user is a secure hash of its username. Useful for environments where it's not suitable for users to authenticate with their Google/GitHub/etc. acconunts.
+An authenticator for [JupyterHub](https://jupyterhub.readthedocs.io/en/latest/) where the password for each user is a secure hash of its username. Useful for environments where it's not suitable for users to authenticate with their Google/GitHub/etc. accounts.
 
 ## Installation
 
